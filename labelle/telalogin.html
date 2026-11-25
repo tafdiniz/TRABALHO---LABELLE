@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LA BELLE — Clube do Livro</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap"
+    rel="stylesheet"
+  />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cafe: {
+              dark: '#3E180E',
+              footer: '#4A1F14',
+              wine: '#6E2B2B',
+              brown: '#7A5648',
+              border: '#9C7A6C',
+              inputBorder: '#CBB4AA',
+              creamBg: '#F2E9DE',
+              creamText: '#F3EAE0',
+              btn: '#EBE1D5',
+              btnHover: '#E0D2C2',
+              ornament: '#8C6D5E',
+            },
+          },
+          fontFamily: {
+            display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            title: ['"Playfair Display"', 'Georgia', 'serif'],
+            body: ['"Lora"', 'Georgia', 'serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body {
+      background-color: #F2E9DE;
+      color: #6E2B2B;
+      font-family: 'Lora', Georgia, serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .header-shadow {
+      box-shadow: 0 6px 22px rgba(62, 24, 14, 0.22), 0 2px 6px rgba(62, 24, 14, 0.14);
+    }
+
+    .cafe-card {
+      background: linear-gradient(180deg, #FFFFFF 0%, #FDFBF9 100%);
+      border: 1px solid rgba(138, 96, 80, 0.55);
+      border-radius: 18px;
+      box-shadow:
+        0 20px 44px -10px rgba(62, 24, 14, 0.16),
+        0 8px 20px -6px rgba(62, 24, 14, 0.10),
+        0 1px 3px rgba(62, 24, 14, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .cafe-card:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 26px 52px -12px rgba(62, 24, 14, 0.20),
+        0 12px 24px -6px rgba(62, 24, 14, 0.12),
+        0 1px 3px rgba(62, 24, 14, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 1);
+    }
+
+    .cafe-input {
+      border: 1px solid #C8B0A6;
+      border-radius: 8px;
+      background-color: #FFFFFF;
+      color: #4A1F14;
+      box-shadow: inset 0 1px 2px rgba(62, 24, 14, 0.03), 0 1px 2px rgba(62, 24, 14, 0.03);
+      transition: all 0.25s ease;
+    }
+
+    .cafe-input::placeholder {
+      color: #C7B6AE;
+      font-weight: 400;
+      font-size: 0.875rem;
+    }
+
+    .cafe-input:focus {
+      outline: none;
+      border-color: #8C5846;
+      box-shadow: 0 0 0 3px rgba(140, 88, 70, 0.12), 0 2px 6px rgba(62, 24, 14, 0.06);
+    }
+
+    .cafe-btn {
+      background: linear-gradient(180deg, #EFE6DC 0%, #E5D9CA 100%);
+      color: #7A5648;
+      border: 1px solid rgba(156, 122, 108, 0.38);
+      border-radius: 8px;
+      box-shadow:
+        0 6px 16px -2px rgba(62, 24, 14, 0.15),
+        0 2px 5px -1px rgba(62, 24, 14, 0.09),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+      transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .cafe-btn:hover {
+      background: linear-gradient(180deg, #EAE0D4 0%, #DDD0BE 100%);
+      color: #5C3A2E;
+      transform: translateY(-1.5px);
+      box-shadow:
+        0 10px 22px -3px rgba(62, 24, 14, 0.20),
+        0 4px 8px -1px rgba(62, 24, 14, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    }
+
+    .cafe-btn:active {
+      transform: translateY(0.5px);
+      box-shadow:
+        0 3px 8px rgba(62, 24, 14, 0.14),
+        inset 0 1px 2px rgba(62, 24, 14, 0.08);
+    }
+
+    .title-shadow {
+      text-shadow: 0 2px 10px rgba(110, 43, 43, 0.12);
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .animate-modal {
+      animation: fadeSlideUp 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-cafe-wine/15 selection:text-cafe-dark">
+
+  <header class="w-full bg-cafe-dark text-cafe-creamText header-shadow relative z-20">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10 md:px-14 pt-4 pb-5 flex items-center justify-between">
+      
+      <a href="#top" class="group flex flex-col focus:outline-none">
+        <div class="flex items-center gap-3 sm:gap-4">
+          <span class="font-display text-4xl sm:text-5xl tracking-[0.06em] font-normal text-cafe-creamText leading-none">
+            LA BELLE
+          </span>
+          <svg
+            class="w-14 h-12 sm:w-16 sm:h-14 text-cafe-creamText/90 transition-transform duration-500 group-hover:scale-105"
+            viewBox="0 0 96 74"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              d="M10 26C19 23 28 24 34 30V56C28 51 19 50 10 53V26Z"
+              stroke="currentColor"
+              stroke-width="1"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M58 26C49 23 40 24 34 30V56C40 51 49 50 58 53V26Z"
+              stroke="currentColor"
+              stroke-width="1"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path d="M15 33C21 31.5 26 32.5 30 35.5" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" opacity="0.75" />
+            <path d="M15 40C21 38.5 26 39.5 30 42.5" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" opacity="0.75" />
+            <path d="M15 47C21 45.5 26 46.5 30 49.5" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" opacity="0.75" />
+            <path d="M53 33C47 31.5 42 32.5 38 35.5" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" opacity="0.75" />
+
+            <path
+              d="M27 59C29 64 37 64 39 56C41 47 41 25 46 16C49 10 55 11 56 17C57 22 51 27 44 25"
+              stroke="currentColor"
+              stroke-width="0.95"
+              stroke-linecap="round"
+            />
+            <circle cx="32" cy="56" r="2.2" stroke="currentColor" stroke-width="0.95" />
+            <path d="M34.2 56V46L39 44.5V53" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" />
+            <circle cx="49" cy="18" r="1.8" stroke="currentColor" stroke-width="0.9" />
+            <path d="M50.8 18V10.5L54.5 9.5" stroke="currentColor" stroke-width="0.85" stroke-linecap="round" />
+
+            <path
+              d="M54 44L82 35C83.5 38 84 42 83.5 45L54 55V44Z"
+              stroke="currentColor"
+              stroke-width="1"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M54 44L72 30C76.5 30.8 80 32.5 82 35"
+              stroke="currentColor"
+              stroke-width="1"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M54 49.5L83.7 40"
+              stroke="currentColor"
+              stroke-width="0.8"
+              stroke-dasharray="2 1.5"
+              opacity="0.85"
+            />
+            <circle cx="72" cy="28" r="2.2" stroke="currentColor" stroke-width="0.95" />
+            <path d="M72.8 26C74 23.5 76 23 77.5 23.5" stroke="currentColor" stroke-width="0.85" stroke-linecap="round" />
+          </svg>
+        </div>
+
+        <p class="font-display italic text-sm sm:text-base text-cafe-creamText/85 tracking-wide mt-0.5 pl-0.5">
+          Venha conhecer nossa história!
+        </p>
+      </a>
+
+      <nav aria-label="Navegação superior" class="flex items-center gap-4 sm:gap-5">
+        <button
+          type="button"
+          onclick="showFeedback('Tem certeza que quer voltar?', 'Se sim, clique novamente!', './inicio.html')"
+          title="Página Inicial"
+          aria-label="Página Inicial"
+          class="p-2.5 rounded-full text-cafe-creamText/85 hover:text-white hover:bg-white/10 transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-cafe-creamText/40"
+        >
+          <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 10.5L12 3l9 7.5" />
+            <path d="M5.5 8.5V20a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1V8.5" />
+            <path d="M9.5 21v-6.5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1V21" />
+          </svg>
+        </button>
+
+        <button
+          type="button"
+          onclick="showFeedback('Área do Leitor', 'Faça login ou cadastre-se abaixo para acessar suas leituras e recompensas da cafeteria.')"
+          title="Perfil do Leitor"
+          aria-label="Perfil do Leitor"
+          class="p-2.5 rounded-full text-cafe-creamText/85 hover:text-white hover:bg-white/10 transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-cafe-creamText/40"
+        >
+          <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="3.8" />
+            <path d="M4.5 20.2c1.4-3.6 4.3-5.4 7.5-5.4s6.1 1.8 7.5 5.4" />
+          </svg>
+        </button>
+      </nav>
+    </div>
+
+    <div class="w-full h-[3px] bg-cafe-creamBg"></div>
+    <div class="w-full h-[1px] bg-cafe-border/55"></div>
+  </header>
+
+  <main class="relative flex-1 w-full bg-cafe-creamBg overflow-hidden py-8 sm:py-10 px-4 sm:px-8 flex flex-col items-center justify-center">
+
+    <button
+      type="button"
+      onclick="showFeedback('Próxima Página', 'Explore também nosso cardápio literário e os encontros mensais do Clube do Livro!')"
+      aria-label="Avançar"
+      title="Explorar catálogo do Clube"
+      class="hidden md:flex items-center justify-center absolute right-6 lg:right-12 top-36 text-cafe-brown/30 hover:text-cafe-wine/70 transition-all duration-300 hover:translate-x-1 p-3 rounded-full"
+    >
+      <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14" />
+        <path d="m13 6 6 6-6 6" />
+      </svg>
+    </button>
+
+    <svg
+      class="pointer-events-none select-none absolute bottom-2 left-2 sm:bottom-3 sm:left-4 w-28 h-28 sm:w-40 sm:h-40 text-cafe-ornament opacity-55"
+      viewBox="0 0 180 180"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path d="M16 164C18 122 24 84 42 46" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" />
+      <path d="M16 164C58 162 96 156 134 138" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" />
+      <path d="M22 158C45 135 66 114 82 88" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" />
+      <path d="M25 112C14 104 12 90 21 82C28 76 36 82 33 90C30 96 22 95 22 89" stroke="currentColor" stroke-width="0.85" stroke-linecap="round" />
+      <path d="M68 155C76 166 90 168 98 159C104 152 98 144 90 147C84 150 85 158 91 158" stroke="currentColor" stroke-width="0.85" stroke-linecap="round" />
+      <path d="M34 74C26 64 28 50 37 46C43 43 47 50 42 56" stroke="currentColor" stroke-width="0.85" stroke-linecap="round" />
+      <path d="M106 146C116 154 130 152 134 143C137 137 130 133 124 138" stroke="currentColor" stroke-width="0.85" stroke-linecap="round" />
+      <path d="M44 136C36 126 38 114 48 112C52 122 50 130 44 136Z" fill="currentColor" fill-opacity="0.22" stroke="currentColor" stroke-width="0.7" />
+      <path d="M44 136C54 144 66 142 68 132C58 128 50 130 44 136Z" fill="currentColor" fill-opacity="0.22" stroke="currentColor" stroke-width="0.7" />
+      <path d="M62 114C55 104 58 93 67 91C70 100 68 108 62 114Z" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="0.7" />
+      <path d="M66 118C76 125 87 122 89 113C80 110 72 112 66 118Z" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="0.7" />
+      <circle cx="42" cy="40" r="1.5" fill="currentColor" />
+      <circle cx="140" cy="138" r="1.5" fill="currentColor" />
+      <circle cx="86" cy="83" r="1.5" fill="currentColor" />
+      <circle cx="29" cy="130" r="1.3" fill="currentColor" />
+      <circle cx="52" cy="151" r="1.3" fill="currentColor" />
+    </svg>
+    <svg
+      class="pointer-events-none select-none absolute bottom-2 right-2 sm:bottom-3 sm:right-4 w-28 h-28 sm:w-40 sm:h-40 text-cafe-ornament opacity-55 -scale-x-100"
+      viewBox="0 0 180 180"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path d="M16 164C18 122 24 84 42 46" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" />
+      <path d="M16 164C58 162 96 156 134 138" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" />
+      <path d="M22 158C45 135 66 114 82 88" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" />
+      <path d="M25 112C14 104 12 90 21 82C28 76 36 82 33 90C30 96 22 95 22 89" stroke="currentColor" stroke-width="0.85" stroke-linecap="round" />
+      <path d="M68 155C76 166 90 168 98 159C104 152 98 144 90 147C84 150 85 158 91 158" stroke="currentColor" stroke-width="0.85" stroke-linecap="round" />
+      <path d="M34 74C26 64 28 50 37 46C43 43 47 50 42 56" stroke="currentColor" stroke-width="0.85" stroke-linecap="round" />
+      <path d="M106 146C116 154 130 152 134 143C137 137 130 133 124 138" stroke="currentColor" stroke-width="0.85" stroke-linecap="round" />
+      <path d="M44 136C36 126 38 114 48 112C52 122 50 130 44 136Z" fill="currentColor" fill-opacity="0.22" stroke="currentColor" stroke-width="0.7" />
+      <path d="M44 136C54 144 66 142 68 132C58 128 50 130 44 136Z" fill="currentColor" fill-opacity="0.22" stroke="currentColor" stroke-width="0.7" />
+      <path d="M62 114C55 104 58 93 67 91C70 100 68 108 62 114Z" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="0.7" />
+      <path d="M66 118C76 125 87 122 89 113C80 110 72 112 66 118Z" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="0.7" />
+      <circle cx="42" cy="40" r="1.5" fill="currentColor" />
+      <circle cx="140" cy="138" r="1.5" fill="currentColor" />
+      <circle cx="86" cy="83" r="1.5" fill="currentColor" />
+      <circle cx="29" cy="130" r="1.3" fill="currentColor" />
+      <circle cx="52" cy="151" r="1.3" fill="currentColor" />
+    </svg>
+
+    <div class="text-center mb-7 sm:mb-9 relative z-10">
+      <h1 class="font-display italic font-medium text-4xl sm:text-5xl md:text-[54px] text-cafe-wine tracking-wide title-shadow">
+        Clube do Livro
+      </h1>
+      <div class="w-24 h-[1px] bg-gradient-to-r from-transparent via-cafe-wine/35 to-transparent mx-auto mt-2"></div>
+    </div>
+
+    <div class="w-full max-w-5xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] items-stretch gap-8 lg:gap-10 xl:gap-14 px-2 sm:px-6 pb-6">
+
+      <section aria-labelledby="login-heading" class="cafe-card px-7 sm:px-10 py-8 sm:py-9 flex flex-col justify-between">
+        <div>
+          <h2 id="login-heading" class="font-display italic font-medium text-3xl sm:text-[34px] text-cafe-wine text-center mb-6">
+            Login
+          </h2>
+
+          <form id="login-form" class="space-y-4" novalidate>
+            <div>
+              <label for="login-nome" class="block text-sm text-cafe-wine/90 mb-1 tracking-wide">
+                Nome:
+              </label>
+              <input
+                id="login-nome"
+                name="nome"
+                type="text"
+                required
+                placeholder="Digite seu nome..."
+                class="cafe-input w-full px-3.5 py-2 text-sm"
+              />
+            </div>
+
+            <div>
+              <label for="login-cep" class="block text-sm text-cafe-wine/90 mb-1 tracking-wide">
+                CEP:
+              </label>
+              <input
+                id="login-cep"
+                name="cep"
+                type="text"
+                inputmode="numeric"
+                maxlength="9"
+                required
+                placeholder="Digite seu CEP..."
+                class="cafe-input w-full px-3.5 py-2 text-sm cep-mask"
+              />
+            </div>
+
+            <div>
+              <label for="login-email" class="block text-sm text-cafe-wine/90 mb-1 tracking-wide">
+                Email:
+              </label>
+              <input
+                id="login-email"
+                name="email"
+                type="email"
+                required
+                placeholder="Digite seu E-mail..."
+                class="cafe-input w-full px-3.5 py-2 text-sm"
+              />
+            </div>
+
+            <div>
+              <label for="login-senha" class="block text-sm text-cafe-wine/90 mb-1 tracking-wide">
+                Senha:
+              </label>
+              <div class="relative">
+                <input
+                  id="login-senha"
+                  name="senha"
+                  type="password"
+                  required
+                  placeholder="Digite sua Senha..."
+                  class="cafe-input w-full px-3.5 py-2 pr-10 text-sm"
+                />
+                <button
+                  type="button"
+                  onclick="togglePassword('login-senha', this)"
+                  aria-label="Mostrar ou ocultar senha"
+                  class="absolute inset-y-0 right-0 px-3 flex items-center text-cafe-brown/50 hover:text-cafe-wine transition-colors"
+                >
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="pt-3 pb-1 text-center">
+              <button
+                type="button"
+                onclick="openForgotModal()"
+                class="text-xs sm:text-[13px] text-cafe-wine/85 hover:text-cafe-dark underline underline-offset-4 decoration-cafe-wine/45 hover:decoration-cafe-dark transition-colors"
+              >
+                esqueci a senha
+              </button>
+            </div>
+
+            <div class="pt-2 flex justify-center">
+              <button
+                type="submit"
+                class="cafe-btn w-44 sm:w-48 py-2.5 text-sm font-medium tracking-wide cursor-pointer"
+              >
+                Entrar
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <div class="hidden lg:flex flex-col items-center justify-center py-4" aria-hidden="true">
+        <div class="w-[1px] h-full bg-gradient-to-b from-transparent via-cafe-border/60 to-transparent"></div>
+      </div>
+
+      <div class="flex lg:hidden items-center justify-center my-1" aria-hidden="true">
+        <div class="h-[1px] w-3/4 bg-gradient-to-r from-transparent via-cafe-border/60 to-transparent"></div>
+      </div>
+
+      <section aria-labelledby="cadastro-heading" class="cafe-card px-7 sm:px-10 py-8 sm:py-9 flex flex-col justify-between">
+        <div>
+          <h2 id="cadastro-heading" class="font-display italic font-medium text-3xl sm:text-[34px] text-cafe-wine text-center mb-5">
+            Cadastro
+          </h2>
+
+          <form id="cadastro-form" class="space-y-3" novalidate>
+            <div>
+              <label for="cad-nome" class="block text-sm text-cafe-wine/90 mb-0.5 tracking-wide">
+                Nome completo:
+              </label>
+              <input
+                id="cad-nome"
+                name="nomeCompleto"
+                type="text"
+                required
+                placeholder="Digite seu nome..."
+                class="cafe-input w-full px-3.5 py-1.5 text-sm"
+              />
+            </div>
+
+            <div>
+              <label for="cad-cpf" class="block text-sm text-cafe-wine/90 mb-0.5 tracking-wide">
+                CPF:
+              </label>
+              <input
+                id="cad-cpf"
+                name="cpf"
+                type="text"
+                inputmode="numeric"
+                maxlength="14"
+                required
+                placeholder="Digite seu CPF..."
+                class="cafe-input w-full px-3.5 py-1.5 text-sm cpf-mask"
+              />
+            </div>
+
+            <div>
+              <label for="cad-email" class="block text-sm text-cafe-wine/90 mb-0.5 tracking-wide">
+                Email:
+              </label>
+              <input
+                id="cad-email"
+                name="email"
+                type="email"
+                required
+                placeholder="Digite seu E-mail..."
+                class="cafe-input w-full px-3.5 py-1.5 text-sm"
+              />
+            </div>
+
+            <div>
+              <label for="cad-senha" class="block text-sm text-cafe-wine/90 mb-0.5 tracking-wide">
+                Crie sua senha:
+              </label>
+              <div class="relative">
+                <input
+                  id="cad-senha"
+                  name="senha"
+                  type="password"
+                  required
+                  placeholder="Digite sua Senha..."
+                  class="cafe-input w-full px-3.5 py-1.5 pr-10 text-sm"
+                />
+                <button
+                  type="button"
+                  onclick="togglePassword('cad-senha', this)"
+                  aria-label="Mostrar ou ocultar senha"
+                  class="absolute inset-y-0 right-0 px-3 flex items-center text-cafe-brown/50 hover:text-cafe-wine transition-colors"
+                >
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label for="cad-confirma-senha" class="block text-sm text-cafe-wine/90 mb-0.5 tracking-wide">
+                Confirme sua senha:
+              </label>
+              <div class="relative">
+                <input
+                  id="cad-confirma-senha"
+                  name="confirmaSenha"
+                  type="password"
+                  required
+                  placeholder="Digite sua Senha..."
+                  class="cafe-input w-full px-3.5 py-1.5 pr-10 text-sm"
+                />
+                <button
+                  type="button"
+                  onclick="togglePassword('cad-confirma-senha', this)"
+                  aria-label="Mostrar ou ocultar confirmação de senha"
+                  class="absolute inset-y-0 right-0 px-3 flex items-center text-cafe-brown/50 hover:text-cafe-wine transition-colors"
+                >
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label for="cad-cep" class="block text-sm text-cafe-wine/90 mb-0.5 tracking-wide">
+                CEP:
+              </label>
+              <input
+                id="cad-cep"
+                name="cep"
+                type="text"
+                inputmode="numeric"
+                maxlength="9"
+                required
+                placeholder="Digite seu CEP..."
+                class="cafe-input w-full px-3.5 py-1.5 text-sm cep-mask"
+              />
+            </div>
+
+            <div class="pt-4 flex justify-center">
+              <button
+                type="submit"
+                class="cafe-btn w-44 sm:w-48 py-2.5 text-sm font-medium tracking-wide cursor-pointer"
+              >
+                Entrar
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="w-full h-5 sm:h-6 bg-cafe-footer border-t border-cafe-border/30 shadow-inner"></footer>
+
+  <div
+    id="cafe-modal"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-cafe-dark/45 backdrop-blur-[2px] p-4"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+  >
+    <div class="cafe-card max-w-md w-full p-7 sm:p-8 text-center relative animate-modal">
+      <div class="w-11 h-11 mx-auto mb-3 rounded-full bg-cafe-creamBg border border-cafe-border/40 flex items-center justify-center text-cafe-wine">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 8h1a4 4 0 1 1 0 8h-1" />
+          <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" />
+          <line x1="6" y1="2" x2="6" y2="4" />
+          <line x1="10" y1="2" x2="10" y2="4" />
+          <line x1="14" y1="2" x2="14" y2="4" />
+        </svg>
+      </div>
+
+      <h3 id="modal-title" class="font-display italic text-2xl sm:text-3xl text-cafe-wine mb-2">
+        Bem-vindo à LA BELLE
+      </h3>
+
+      <p id="modal-message" class="text-sm text-cafe-brown leading-relaxed mb-5">
+        Mensagem informativa aqui.
+      </p>
+
+      <div id="forgot-input-wrapper" class="hidden mb-5 text-left">
+        <label for="forgot-email" class="block text-xs text-cafe-wine mb-1">
+          Informe seu e-mail cadastrado:
+        </label>
+        <input
+          id="forgot-email"
+          type="email"
+          placeholder="seuemail@exemplo.com"
+          class="cafe-input w-full px-3.5 py-2 text-sm"
+        />
+      </div>
+
+      <div class="flex items-center justify-center gap-3">
+        <button
+          id="modal-secondary-btn"
+          type="button"
+          onclick="closeModal()"
+          class="hidden px-5 py-2 text-xs sm:text-sm text-cafe-brown hover:text-cafe-dark underline underline-offset-4 cursor-pointer"
+        >
+          Cancelar
+        </button>
+        <button
+          id="modal-primary-btn"
+          type="button"
+          onclick="closeModal()"
+          class="cafe-btn px-7 py-2 text-sm font-medium cursor-pointer"
+        >
+          Continuar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.cep-mask').forEach((input) => {
+      input.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\D/g, '').slice(0, 8);
+        if (value.length > 5) {
+          value = value.replace(/^(\d{5})(\d)/, '$1-$2');
+        }
+        e.target.value = value;
+      });
+    });
+
+    document.querySelectorAll('.cpf-mask').forEach((input) => {
+      input.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\D/g, '').slice(0, 11);
+        value = value.replace(/(\d{3})(\d)/, '$1.$2');
+        value = value.replace(/(\d{3})(\d)/, '$1.$2');
+        value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+        e.target.value = value;
+      });
+    });
+
+    function togglePassword(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const isPassword = input.type === 'password';
+      input.type = isPassword ? 'text' : 'password';
+
+      btn.innerHTML = isPassword
+        ? `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+            <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c6.5 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+            <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3.5 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+            <line x1="2" y1="2" x2="22" y2="22" />
+          </svg>`
+        : `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>`;
+    }
+
+    const modal = document.getElementById('cafe-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalMessage = document.getElementById('modal-message');
+    const forgotWrapper = document.getElementById('forgot-input-wrapper');
+    const modalPrimaryBtn = document.getElementById('modal-primary-btn');
+    const modalSecondaryBtn = document.getElementById('modal-secondary-btn');
+
+    function showFeedback(title, message, redirectUrl = null) {
+      forgotWrapper.classList.add('hidden');
+      modalPrimaryBtn.textContent = 'Continuar';
+
+      if (redirectUrl) {
+        modalSecondaryBtn.classList.remove('hidden');
+        modalPrimaryBtn.onclick = () => {
+          window.location.href = redirectUrl;
+        };
+      } else {
+        modalSecondaryBtn.classList.add('hidden');
+        modalPrimaryBtn.onclick = closeModal;
+      }
+
+      modalTitle.textContent = title;
+      modalMessage.textContent = message;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function openForgotModal() {
+      modalTitle.textContent = 'Recuperar Senha';
+      modalMessage.textContent =
+        'Enviaremos um link delicado de redefinição para o seu e-mail cadastrado no Clube do Livro.';
+      forgotWrapper.classList.remove('hidden');
+      modalSecondaryBtn.classList.remove('hidden');
+      modalPrimaryBtn.textContent = 'Enviar Link';
+      modalPrimaryBtn.onclick = () => {
+        const emailVal = document.getElementById('forgot-email').value.trim();
+        if (!emailVal || !emailVal.includes('@')) {
+          modalMessage.textContent = 'Por favor, digite um endereço de e-mail válido.';
+          return;
+        }
+        showFeedback(
+          'E-mail Enviado',
+          `Enviamos as instruções de recuperação para ${emailVal}. Aproveite para preparar um café enquanto verifica sua caixa de entrada!`
+        );
+      };
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+    });
+
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nome = document.getElementById('login-nome').value.trim();
+      const cep = document.getElementById('login-cep').value.trim();
+      const email = document.getElementById('login-email').value.trim();
+      const senha = document.getElementById('login-senha').value;
+
+      if (!nome || !cep || !email || !senha) {
+        showFeedback(
+          'Campos Incompletos',
+          'Por favor, preencha todos os campos do formulário de Login para entrar no Clube do Livro.'
+        );
+        return;
+      }
+
+      showFeedback(
+        `Olá, ${nome}!`,
+        'Seu acesso ao Clube do Livro LA BELLE foi realizado com sucesso. Que tal acompanhar a leitura do mês com uma fatia de torta?'
+      );
+    });
+
+    document.getElementById('cadastro-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nome = document.getElementById('cad-nome').value.trim();
+      const cpf = document.getElementById('cad-cpf').value.trim();
+      const email = document.getElementById('cad-email').value.trim();
+      const senha = document.getElementById('cad-senha').value;
+      const confirmaSenha = document.getElementById('cad-confirma-senha').value;
+      const cep = document.getElementById('cad-cep').value.trim();
+
+      if (!nome || !cpf || !email || !senha || !confirmaSenha || !cep) {
+        showFeedback(
+          'Campos Incompletos',
+          'Por favor, preencha todos os campos do formulário de Cadastro para fazer parte do Clube.'
+        );
+        return;
+      }
+
+      if (senha !== confirmaSenha) {
+        showFeedback(
+          'Senhas Diferentes',
+          'A confirmação de senha não coincide com a senha criada. Verifique e tente novamente.'
+        );
+        return;
+      }
+
+      showFeedback(
+        `Bem-vindo(a), ${nome}!`,
+        'Seu cadastro no Clube do Livro LA BELLE foi concluído com sucesso!'
+      );
+    });
+  </script>
+</body>
+</html>

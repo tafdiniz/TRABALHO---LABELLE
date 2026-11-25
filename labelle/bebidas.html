@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La Belle — Bebidas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-header: #44170E;
+      --bg-sidebar: #44170E;
+      --bg-cream: #F3E8DC;
+      --bg-card: #EFE3D5;
+      --text-dark: #4A1C13;
+      --text-body: #5C291E;
+      --text-price: #1F0D09;
+      --border-delicate: rgba(74, 28, 19, 0.38);
+      --border-strong: rgba(74, 28, 19, 0.62);
+      --shadow-card: 0 10px 24px rgba(68, 23, 14, 0.14), 0 3px 8px rgba(68, 23, 14, 0.08);
+      --shadow-hover: 0 16px 32px rgba(68, 23, 14, 0.22), 0 5px 12px rgba(68, 23, 14, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      font-family: 'Lora', Georgia, serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    header {
+      background-color: var(--bg-header);
+      color: #F6ECE1;
+      padding: 18px 48px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 6px 20px rgba(38, 11, 6, 0.28);
+      border-bottom: 1px solid rgba(246, 236, 225, 0.18);
+      position: relative;
+      z-index: 20;
+    }
+
+    .brand-area {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 3.1rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      line-height: 0.95;
+      color: #F6ECE1;
+    }
+
+    .brand-subtitle {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: 1.25rem;
+      color: #EBD9C8;
+      margin-top: 2px;
+      letter-spacing: 0.02em;
+    }
+
+    .header-icons {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .icon-btn {
+      background: transparent;
+      border: none;
+      color: #F6ECE1;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .icon-btn:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .layout-wrapper {
+      display: flex;
+      flex: 1;
+    }
+
+    aside.sidebar {
+      width: 196px;
+      flex-shrink: 0;
+      background-color: var(--bg-sidebar);
+      padding: 26px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 6px 0 22px rgba(38, 11, 6, 0.22);
+      z-index: 10;
+    }
+
+    .sidebar-badge {
+      background-color: #EFE2D3;
+      color: var(--text-dark);
+      border-radius: 6px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 6px 16px rgba(24, 6, 3, 0.28);
+      margin-bottom: 4px;
+      transition: transform 0.2s ease;
+    }
+
+    .sidebar-badge:hover {
+      transform: translateY(-1px);
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 14px;
+      border: 1px solid rgba(246, 236, 225, 0.35);
+      border-radius: 6px;
+      color: #F6ECE1;
+      text-decoration: none;
+      font-size: 0.92rem;
+      transition: all 0.25s ease;
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    .sidebar-link:hover,
+    .sidebar-link.active {
+      background-color: rgba(239, 226, 211, 0.14);
+      border-color: #EFE2D3;
+      transform: translateX(3px);
+      box-shadow: 0 6px 14px rgba(24, 6, 3, 0.25);
+    }
+
+    main.menu-content {
+      flex: 1;
+      padding: 20px 36px 40px;
+    }
+
+    .eyebrow {
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-body);
+      margin-bottom: 2px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .section-title-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .section-title-group h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 2.35rem;
+      font-weight: 500;
+      color: var(--text-dark);
+      line-height: 1;
+    }
+
+    .ver-todas {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: var(--text-body);
+      text-decoration: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .ver-todas:hover {
+      opacity: 0.75;
+      transform: translateX(3px);
+    }
+
+    .drinks-grid {
+      max-width: 980px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px 20px;
+    }
+
+    .drink-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      padding: 6px 6px 26px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.28s ease, box-shadow 0.28s ease;
+    }
+
+    .drink-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .drink-img-box {
+      width: 100%;
+      height: 165px;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 22px;
+      background-color: #D7C2AE;
+    }
+
+    .drink-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .drink-price {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-price);
+      margin-bottom: 6px;
+    }
+
+    .drink-name {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    @media (max-width: 980px) {
+      .drinks-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 820px) {
+      .layout-wrapper {
+        flex-direction: column;
+      }
+      aside.sidebar {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      header {
+        padding: 16px 24px;
+      }
+      main.menu-content {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .drinks-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand-area">
+      <div class="brand-top">
+        <span class="brand-title">LA BELLE</span>
+        <svg width="76" height="52" viewBox="0 0 90 62" fill="none" stroke="#F6ECE1" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 22 C18 19, 28 21, 34 26 L34 48 C28 43, 18 41, 8 44 Z" />
+          <path d="M60 22 C50 19, 40 21, 34 26 L34 48 C40 43, 50 41, 60 44 Z" />
+          <path d="M12 27 C19 25, 26 26, 31 30" stroke-opacity="0.7"/>
+          <path d="M12 33 C19 31, 26 32, 31 36" stroke-opacity="0.7"/>
+          <path d="M46 18 L46 7 L56 5 L56 15" />
+          <circle cx="43.5" cy="18.5" r="2.5" />
+          <circle cx="53.5" cy="15.5" r="2.5" />
+          <path d="M39 46 C41 49, 46 49, 48 45 L48 33" />
+          <circle cx="45.5" cy="45" r="2.3" />
+          <path d="M58 34 L82 28 L82 43 L58 49 Z" />
+          <path d="M58 34 L71 23 L82 28" />
+          <path d="M58 39 L82 33" stroke-opacity="0.75"/>
+          <path d="M58 44 L82 38" stroke-opacity="0.75"/>
+          <circle cx="72" cy="24" r="2.2" />
+        </svg>
+      </div>
+      <span class="brand-subtitle">Venha conhecer nossa história!</span>
+    </div>
+
+    <div class="header-icons">
+      <button class="icon-btn" title="Pedidos e Reservas">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="4" rx="1"/>
+          <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"/>
+          <path d="M10 12h4"/>
+        </svg>
+      </button>
+      <button class="icon-btn" title="Início" onclick="window.location.href='musica.html'">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 10.5L12 3l9 7.5"/>
+          <path d="M5 9.5V20h14V9.5"/>
+          <path d="M10 20v-6h4v6"/>
+        </svg>
+      </button>
+      <button class="icon-btn" title="Login e Cadastro" onclick="window.location.href='index.html'">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M5 20c1.5-4 12.5-4 14 0"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout-wrapper">
+    <aside class="sidebar">
+      <a href="cardapio.html" class="sidebar-badge">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5C291E" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 21v-9"/>
+          <path d="M12 16c-3 0-5-2-5-4.5 2 0 4 1.2 5 3.5"/>
+          <path d="M12 14c3 0 5-2 5-4.5-2 0-4 1.2-5 3.5"/>
+          <path d="M12 12c-2.5-1-4-3.5-2.5-6 1.5 1 2.5 2.5 2.5 4.5 0-2 1-3.5 2.5-4.5 1.5 2.5 0 5-2.5 6z"/>
+        </svg>
+        <span>Nosso Cardápio</span>
+      </a>
+
+      <a href="cardapio.html" class="sidebar-link">
+        <span>Sobremesas</span>
+        <span>&rarr;</span>
+      </a>
+
+      <a href="bebidas.html" class="sidebar-link active">
+        <span>Bebidas</span>
+        <span>&rarr;</span>
+      </a>
+    </aside>
+
+    <main class="menu-content">
+      <div class="eyebrow">DELÍCIAS DA NOSSA CASA</div>
+
+      <div class="section-header">
+        <div class="section-title-group">
+          <h2>Bebidas</h2>
+          <svg width="64" height="16" viewBox="0 0 64 16" fill="none" stroke="#5C291E" stroke-width="0.9">
+            <line x1="0" y1="8" x2="22" y2="8" />
+            <polygon points="32,2 37,8 32,14 27,8" />
+            <circle cx="32" cy="8" r="1.5" fill="#5C291E" />
+            <line x1="42" y1="8" x2="64" y2="8" />
+          </svg>
+        </div>
+        <a href="#todas-bebidas" class="ver-todas">Ver todas <span>&rarr;</span></a>
+      </div>
+
+      <div class="drinks-grid">
+        <article class="drink-card">
+          <div class="drink-img-box">
+            <img src="espresso.jpg" alt="Expresso" />
+          </div>
+          <div class="drink-price">R$ 8, 00</div>
+          <div class="drink-name">Expresso</div>
+        </article>
+
+        <article class="drink-card">
+          <div class="drink-img-box">
+            <img src="cappucino.jpg" alt="Cappucino" />
+          </div>
+          <div class="drink-price">R$ 9, 50</div>
+          <div class="drink-name">Cappucino</div>
+        </article>
+
+        <article class="drink-card">
+          <div class="drink-img-box">
+            <img src="cafe-com-leite.jpg" alt="Café com leite" />
+          </div>
+          <div class="drink-price">R$ 6, 50</div>
+          <div class="drink-name">Café com leite</div>
+        </article>
+
+        <article class="drink-card">
+          <div class="drink-img-box">
+            <img src="chocolate-quente.jpg" alt="Chocolate quente" />
+          </div>
+          <div class="drink-price">R$ 7, 00</div>
+          <div class="drink-name">Chocolate quente</div>
+        </article>
+
+        <article class="drink-card">
+          <div class="drink-img-box">
+            <img src="cha-especial.jpg" alt="Chá especial" />
+          </div>
+          <div class="drink-price">R$ 5, 50</div>
+          <div class="drink-name">Chá especial</div>
+        </article>
+
+        <article class="drink-card">
+          <div class="drink-img-box">
+            <img src="cafe-gelado.jpg" alt="Café gelado" />
+          </div>
+          <div class="drink-price">R$ 8, 00</div>
+          <div class="drink-name">Café gelado</div>
+        </article>
+
+        <article class="drink-card">
+          <div class="drink-img-box">
+            <img src="frappe-chocolate.jpg" alt="Frappé de chocolate" />
+          </div>
+          <div class="drink-price">R$ 12, 00</div>
+          <div class="drink-name">Frappé de chocolate</div>
+        </article>
+
+        <article class="drink-card">
+          <div class="drink-img-box">
+            <img src="suco-natural.jpg" alt="Suco natural" />
+          </div>
+          <div class="drink-price">R$ 6, 00</div>
+          <div class="drink-name">Suco natural</div>
+        </article>
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>
